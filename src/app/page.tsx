@@ -480,7 +480,7 @@ export default function Home() {
           <Reveal>
             <div className="text-center mb-24">
               <span className="inline-block px-4 py-1.5 mb-6 text-[11px] font-semibold font-mono uppercase tracking-[0.2em] text-primary bg-primary/10 border border-primary/20 rounded-full shadow-[0_0_15px_rgba(124,58,237,0.2)]">
-                Expertise
+                Servicios
               </span>
               <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight drop-shadow-sm">Mis Servicios</h2>
             </div>
@@ -589,16 +589,16 @@ export default function Home() {
               </div>
             </Reveal>
           </div>
-          
+
           <Reveal delay={0.2}>
             <div className="flex justify-center mt-12">
-              <button 
+              <button
                 onClick={() => setShowMoreProjects(!showMoreProjects)}
                 className="flex items-center gap-2 px-6 py-3 rounded-full border border-border bg-surface hover:bg-surface-hover hover:border-border-hover transition-all text-sm font-medium text-foreground group"
               >
                 {showMoreProjects ? "Ver menos proyectos" : "Ver más proyectos"}
-                <svg 
-                  className={`w-4 h-4 transition-transform duration-300 ${showMoreProjects ? "rotate-180" : "rotate-0"}`} 
+                <svg
+                  className={`w-4 h-4 transition-transform duration-300 ${showMoreProjects ? "rotate-180" : "rotate-0"}`}
                   fill="none" viewBox="0 0 24 24" stroke="currentColor"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

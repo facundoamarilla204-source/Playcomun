@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://playcomun.com"), // Ajustar al dominio real
+  metadataBase: new URL("https://playcomun.com"),
   title: "PlayComun | Software a Medida & Plataformas SaaS",
   description: "Diseño y construyo aplicaciones web y plataformas SaaS para emprendedores y empresas. Trabajo directo con el desarrollador, sin intermediarios.",
   keywords: ["desarrollo web", "software a medida", "plataforma saas", "desarrollador freelance", "crear aplicacion web", "agencia de software"],
