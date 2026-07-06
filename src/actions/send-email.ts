@@ -47,7 +47,7 @@ export async function sendEmailAction(formData: FormData) {
 
   try {
     const { error } = await resend.emails.send({
-      from: "Contacto <onboarding@resend.dev>", // Cambia a tu dominio configurado en Resend en producción
+      from: "Contacto PlayComun <contacto@playcomun.com>",
       to: ["playcomun.ok@gmail.com"], // Correo donde recibes los mensajes
       subject: `Nuevo mensaje de ${name}`,
       replyTo: email,

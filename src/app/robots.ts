@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://playcomun.com"; // Reemplazar con el dominio real
+  const baseUrl = "https://playcomun.com";
 
   return {
     rules: {
@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/api/",
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: "https://playcomun.com/sitemap.xml",
   };
 }

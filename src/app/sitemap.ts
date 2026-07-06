@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://playcomun.com"; // Reemplazar con el dominio real si es diferente
+  const baseUrl = "https://playcomun.com";
 
   return [
     {
