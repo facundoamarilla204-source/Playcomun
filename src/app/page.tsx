@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { sendEmailAction } from "@/actions/send-email";
 
 /* ── Reusable Scroll Reveal ── */
@@ -385,6 +386,7 @@ export default function Home() {
                       <div className="absolute inset-0 bg-gradient-to-b from-indigo/20 to-background p-4 pt-8">
                         <div className="flex justify-between items-center mb-6 mt-2">
                           <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center overflow-hidden border border-white/10">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" className="w-full h-full object-cover" />
                           </div>
                           <div className="px-2 py-1 bg-primary/20 border border-primary/30 text-primary rounded-full text-[9px] font-bold tracking-wide uppercase">
@@ -456,7 +458,7 @@ export default function Home() {
                 { value: 10, prefix: "+", suffix: "", label: "Tecnologías dominadas", isText: false },
                 { value: 0, textValue: "Directo", prefix: "", suffix: "", label: "Soporte sin intermediarios", isText: true },
                 { value: 5, prefix: "", suffix: "", label: "Productos de alto impacto", isText: false },
-              ].map((stat, i) => (
+              ].map((stat) => (
                 <div key={stat.label} className="text-center md:text-left group">
                   <h3 className="text-4xl md:text-5xl font-extrabold gradient-text mb-2 drop-shadow-md group-hover:scale-105 transition-transform duration-500 origin-left">
                     {stat.isText ? stat.textValue : <AnimatedNumber value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />}
@@ -720,9 +722,12 @@ export default function Home() {
             <Reveal delay={0.3}>
               <div className="relative group w-full h-full flex items-center justify-center">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-indigo/20 blur-3xl opacity-30 group-hover:opacity-50 transition-opacity duration-700" />
-                <img
+                <Image
                   src="/developer_illustration.png"
                   alt="Ilustración de desarrollo web moderno"
+                  width={600}
+                  height={600}
+                  priority
                   className="relative z-10 w-full max-w-lg h-auto object-contain transform transition-transform duration-700 group-hover:scale-105 mix-blend-screen pointer-events-none scale-110"
                 />
               </div>
