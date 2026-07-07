@@ -1,54 +1,54 @@
 "use server";
 
 import { Resend } from "resend";
-import { headers } from "next/headers";
+import { z } from "zod";
+import { env } from "@/lib/env";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(env.RESEND_API_KEY);
 
-// Simple in-memory store for rate limiting (works per server instance)
-const rateLimitMap = new Map<string, { count: number; startTime: number }>();
-const MAX_REQUESTS = 5;
-const WINDOW_MS = 60 * 1000; // 1 minuto
+/**
+ * Zod schema for contact form validation.
+ * Validates and sanitizes all fields server-side.
+ */
+const contactFormSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "El nombre debe tener al menos 2 caracteres.")
+    .max(100, "El nombre no puede superar los 100 caracteres."),
+  email: z
+    .string()
+    .trim()
+    .email("Por favor, ingresá un email válido."),
+  message: z
+    .string()
+    .trim()
+    .min(10, "El mensaje debe tener al menos 10 caracteres.")
+    .max(2000, "El mensaje no puede superar los 2000 caracteres."),
+});
 
 export async function sendEmailAction(formData: FormData) {
-  // Rate Limiting Logic
-  const headersList = await headers();
-  const ip = headersList.get("x-forwarded-for") || "unknown";
-  
-  const currentTime = Date.now();
-  const rateLimitInfo = rateLimitMap.get(ip);
+  // --- Validation ---
+  const rawData = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    message: formData.get("message"),
+  };
 
-  if (rateLimitInfo) {
-    if (currentTime - rateLimitInfo.startTime < WINDOW_MS) {
-      if (rateLimitInfo.count >= MAX_REQUESTS) {
-        return { error: "Has enviado demasiados mensajes. Por favor, espera un minuto e inténtalo de nuevo." };
-      }
-      rateLimitInfo.count++;
-    } else {
-      // Reset window
-      rateLimitMap.set(ip, { count: 1, startTime: currentTime });
-    }
-  } else {
-    rateLimitMap.set(ip, { count: 1, startTime: currentTime });
+  const parsed = contactFormSchema.safeParse(rawData);
+
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Datos inválidos.";
+    return { error: firstError };
   }
 
-  // Basic cleanup to prevent memory leaks
-  if (rateLimitMap.size > 1000) {
-    rateLimitMap.clear();
-  }
+  const { name, email, message } = parsed.data;
 
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const message = formData.get("message") as string;
-
-  if (!name || !email || !message) {
-    return { error: "Todos los campos son requeridos." };
-  }
-
+  // --- Send Email ---
   try {
     const { error } = await resend.emails.send({
       from: "Contacto PlayComun <contacto@playcomun.com>",
-      to: ["playcomun.ok@gmail.com"], // Correo donde recibes los mensajes
+      to: ["playcomun.ok@gmail.com"],
       subject: `Nuevo mensaje de ${name}`,
       replyTo: email,
       text: `Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`,
@@ -63,6 +63,6 @@ export async function sendEmailAction(formData: FormData) {
     if (error instanceof Error) {
       return { error: error.message };
     }
-    return { error: "An unknown error occurred" };
+    return { error: "Ocurrió un error inesperado. Intentá de nuevo." };
   }
 }
