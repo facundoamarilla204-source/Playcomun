@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://playcomun.com"),
+  metadataBase: new URL("https://www.playcomun.com"),
   title: "PlayComun | Software a Medida & Plataformas SaaS",
   description: "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
   keywords: ["desarrollo web", "software a medida", "plataforma saas", "desarrollador freelance", "crear aplicacion web", "agencia de software"],
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "PlayComun",
     title: "PlayComun | Software a Medida & Plataformas SaaS",
     description: "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
-    url: "https://playcomun.com/",
+    url: "https://www.playcomun.com/",
     images: [
       {
         url: "/og/playcomun-og.png",
@@ -54,11 +54,11 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "ProfessionalService",
-      "@id": "https://playcomun.com/#organization",
+      "@id": "https://www.playcomun.com/#organization",
       "name": "PlayComun",
-      "url": "https://playcomun.com/",
-      "logo": "https://playcomun.com/logo.png",
-      "image": "https://playcomun.com/og/playcomun-og.png",
+      "url": "https://www.playcomun.com/",
+      "logo": "https://www.playcomun.com/logo.png",
+      "image": "https://www.playcomun.com/og/playcomun-og.png",
       "description": "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
       "brand": [
         {
@@ -78,12 +78,12 @@ const jsonLd = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://playcomun.com/#website",
-      "url": "https://playcomun.com/",
+      "@id": "https://www.playcomun.com/#website",
+      "url": "https://www.playcomun.com/",
       "name": "PlayComun",
       "description": "Desarrollo de software a medida, aplicaciones web y plataformas SaaS.",
       "publisher": {
-        "@id": "https://playcomun.com/#organization"
+        "@id": "https://www.playcomun.com/#organization"
       }
     }
   ]

@@ -3,13 +3,13 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://playcomun.com/",
+      url: "https://www.playcomun.com/",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,
     },
     {
-      url: "https://playcomun.com/privacidad",
+      url: "https://www.playcomun.com/privacidad",
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.5,
