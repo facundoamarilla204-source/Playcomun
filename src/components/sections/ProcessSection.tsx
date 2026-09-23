@@ -3,11 +3,11 @@
 import { motion } from "framer-motion";
 
 const steps = [
-  { step: "01", title: "Entender", desc: "No escribo una sola línea de código hasta entender cómo tu producto va a resolver un problema real. Definimos objetivos, métricas y alcance." },
-  { step: "02", title: "Diseñar", desc: "Prototipo la interfaz y experiencia de usuario. Si el usuario no entiende cómo usar la plataforma sin un manual, el diseño falló." },
-  { step: "03", title: "Desarrollar", desc: "Ingeniería de alto nivel. Arquitectura sólida desde el día uno, utilizando las mismas herramientas que las empresas tecnológicas líderes." },
-  { step: "04", title: "Lanzar", desc: "Despliegue en producción y configuración de la infraestructura en la nube para asegurar que el sistema escale sin interrupciones." },
-  { step: "05", title: "Iterar", desc: "El lanzamiento es solo el principio. Analizamos datos reales de uso para mejorar funcionalidades, optimizar conversión y agregar valor." },
+  { step: "01", title: "Idea", desc: "Entendemos cómo tu producto va a resolver un problema real. Definimos objetivos de negocio, alcance funcional y requerimientos técnicos." },
+  { step: "02", title: "Diseño", desc: "Creamos la interfaz y experiencia de usuario enfocados en conversión y retención. Interfaces profesionales listas para ser desarrolladas." },
+  { step: "03", title: "Desarrollo", desc: "Ingeniería de alto nivel. Arquitectura sólida desde el día uno, utilizando tecnologías modernas que permiten escalar y mantener el producto." },
+  { step: "04", title: "Lanzamiento", desc: "Despliegue en producción, configuración de dominios, métricas y base de datos en la nube para asegurar que el sistema opere sin interrupciones." },
+  { step: "05", title: "Evolución", desc: "Analizamos datos reales de uso para mejorar funcionalidades, optimizar flujos y agregar valor continuo al producto." },
 ];
 
 export function ProcessSection() {

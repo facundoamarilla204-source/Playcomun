@@ -23,9 +23,9 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-medium leading-[1.05] tracking-tight mb-8"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-[1.05] tracking-tight mb-8"
             >
-              Software a medida,<br className="hidden lg:block" /> sin intermediarios.
+              Páginas Web, Aplicaciones Web y Plataformas SaaS.
             </motion.h1>
 
             <motion.p
@@ -34,7 +34,7 @@ export function HeroSection() {
               transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="text-lg md:text-xl text-foreground-muted leading-relaxed mb-12 max-w-xl font-light"
             >
-              Diseño y construyo aplicaciones web, sistemas de gestión y plataformas SaaS para empresas que necesitan resultados concretos. Hablás directo con quien diseña y desarrolla tu producto.
+              Diseñamos y desarrollamos productos digitales modernos para empresas, emprendimientos y nuevas ideas.
             </motion.p>
 
             <motion.div
@@ -44,10 +44,10 @@ export function HeroSection() {
               className="flex flex-col sm:flex-row gap-4"
             >
               <Button size="lg" href="#contacto">
-                Comencemos un proyecto
+                Crear mi proyecto
               </Button>
-              <Button variant="outline" size="lg" href="#proyectos">
-                Explorar trabajo
+              <Button variant="outline" size="lg" href="#servicios">
+                Ver servicios
               </Button>
             </motion.div>
           </div>

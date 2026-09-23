@@ -17,15 +17,15 @@ const projects = [
     name: "FitAdmi",
     status: "Beta",
     category: "Gestión Deportiva",
-    desc: "Digitalización de gimnasios. Control manual, pagos automatizados y analítica con IA.",
-    tech: "Next.js, Supabase, Gemini",
-    url: "https://fitadmi.vercel.app/",
+    desc: "Plataforma de gestión integral para gimnasios que permite administrar clientes, membresías, asistencias, pagos, productos y entrenamientos desde un solo lugar",
+    tech: "Next.js, Supabase,Mercadopago",
+    url: "https://fitadmi.com.ar/",
     color: "bg-emerald-500/10 border-emerald-500/20 text-emerald-500",
   },
   {
     name: "TurnoGol",
     status: "Desarrollo",
-    category: "Web App",
+    category: "Aplicación Web",
     desc: "Reserva de canchas deportivas ultra-rápida. Optimiza tiempos muertos 24/7.",
     tech: "React, Supabase, Tailwind",
     url: "https://turnogol.vercel.app/",
@@ -49,11 +49,11 @@ export function ProjectsSection() {
               Proyectos
             </span>
             <h2 className="text-4xl md:text-5xl font-medium tracking-tight">
-              Productos con<br/> lógica real.
+              Productos<br /> en producción.
             </h2>
           </div>
           <p className="text-foreground-muted font-light max-w-sm text-lg md:text-right">
-            Deslizá para explorar el portafolio de productos desarrollados y en producción.
+            Deslizá para explorar el portafolio de páginas, aplicaciones y plataformas SaaS desarrolladas.
           </p>
         </motion.div>
       </div>
@@ -62,7 +62,7 @@ export function ProjectsSection() {
       <div className="w-full">
         <div className="flex overflow-x-auto pb-12 pt-4 snap-x snap-mandatory gap-6 hide-scrollbar md:justify-center px-6">
           {projects.map((project, index) => (
-            <motion.div 
+            <motion.div
               key={project.name}
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -72,21 +72,21 @@ export function ProjectsSection() {
             >
               {/* Live Iframe Preview */}
               <div className="aspect-[4/3] relative border-b border-border bg-surface-elevated overflow-hidden flex items-center justify-center group/iframe">
-                 {/* Escala el iframe para que actúe como un thumbnail de un sitio desktop */}
-                 <div className="absolute inset-0 w-[300%] h-[300%] origin-top-left scale-[0.33333] pointer-events-none">
-                   <iframe 
-                     src={project.url} 
-                     className="w-full h-full border-none bg-background opacity-80 group-hover/iframe:opacity-100 transition-opacity duration-700" 
-                     title={`Vista previa de ${project.name}`}
-                     loading="lazy"
-                     scrolling="no"
-                   />
-                 </div>
-                 
-                 {/* Superposición interactiva sutil */}
-                 <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent pointer-events-none" />
+                {/* Escala el iframe para que actúe como un thumbnail de un sitio desktop */}
+                <div className="absolute inset-0 w-[300%] h-[300%] origin-top-left scale-[0.33333] pointer-events-none">
+                  <iframe
+                    src={project.url}
+                    className="w-full h-full border-none bg-background opacity-80 group-hover/iframe:opacity-100 transition-opacity duration-700"
+                    title={`Vista previa de ${project.name}`}
+                    loading="lazy"
+                    scrolling="no"
+                  />
+                </div>
+
+                {/* Superposición interactiva sutil */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent pointer-events-none" />
               </div>
-              
+
               {/* Content */}
               <div className="p-6 md:p-8 flex-1 flex flex-col">
                 <div className="flex items-center gap-3 mb-4">
@@ -98,17 +98,17 @@ export function ProjectsSection() {
                     {project.status}
                   </span>
                 </div>
-                
+
                 <h3 className="text-2xl font-medium mb-3 text-foreground">{project.name}</h3>
                 <p className="text-foreground-muted font-light leading-relaxed mb-6 text-sm flex-1">
                   {project.desc}
                 </p>
-                
+
                 <div className="mb-6">
                   <span className="block text-[10px] font-mono text-foreground-subtle uppercase tracking-widest mb-1.5">Stack</span>
                   <p className="text-xs text-foreground-muted">{project.tech}</p>
                 </div>
-                
+
                 <div className="mt-auto pt-4 border-t border-border/50">
                   <Button variant="outline" size="sm" className="w-full h-10" href={project.url}>
                     Ver proyecto
@@ -119,9 +119,10 @@ export function ProjectsSection() {
           ))}
         </div>
       </div>
-      
+
       {/* Custom styles */}
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }

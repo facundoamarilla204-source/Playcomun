@@ -4,24 +4,24 @@ import { motion } from "framer-motion";
 
 const services = [
   {
-    title: "SaaS",
+    title: "Páginas Web",
+    subtitle: "Sitios y Landing Pages",
+    desc: "Diseño y desarrollo de sitios institucionales y páginas orientadas a la venta. Alto nivel estético, tiempos de carga milimétricos y optimización SEO técnica.",
+  },
+  {
+    title: "Aplicaciones Web",
+    subtitle: "Paneles y Herramientas",
+    desc: "Sistemas con usuarios, bases de datos y paneles de control. Interfaces rápidas diseñadas para digitalizar operaciones, reemplazar planillas y automatizar procesos.",
+  },
+  {
+    title: "Plataformas SaaS",
     subtitle: "Software as a Service",
-    desc: "Arquitecturas en la nube preparadas para escalar. Seguridad, multi-tenant y máximo rendimiento desde el día uno, enfocados en la retención del usuario final y la monetización.",
+    desc: "Desarrollo de productos completos con suscripciones y pagos automatizados. Arquitecturas en la nube preparadas para escalar y enfocadas en la retención.",
   },
   {
-    title: "App Web",
-    subtitle: "Sistemas a Medida",
-    desc: "Sistemas únicos sin plantillas ni CMS lentos. Interfaces rápidas y robustas diseñadas para digitalizar operaciones complejas, reemplazar planillas y automatizar procesos.",
-  },
-  {
-    title: "Páginas Empresariales",
-    subtitle: "Presencia Corporativa",
-    desc: "Sitios institucionales con alto nivel de diseño para comunicar autoridad y confianza. Desarrollados a medida para reflejar la identidad de tu empresa sin depender de temas genéricos.",
-  },
-  {
-    title: "Landing Pages",
-    subtitle: "Optimización de Conversión",
-    desc: "Páginas orientadas a la venta con tiempos de carga milimétricos, optimización técnica de SEO y estrategias persuasivas para dominar los resultados y capturar leads.",
+    title: "Sistemas a Medida",
+    subtitle: "Procesos Internos",
+    desc: "Herramientas de software únicas adaptadas a las reglas exactas de tu negocio. Control de inventarios, gestión de turnos y sistemas de administración a la medida.",
   }
 ];
 
@@ -40,10 +40,10 @@ export function ServicesSection() {
               Especialidad
             </span>
             <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6">
-              De la idea a la producción.
+              Soluciones digitales completas.
             </h2>
             <p className="text-foreground-muted font-light leading-relaxed text-lg">
-              Construyo productos digitales enfocados en resolver problemas de negocio. La tecnología es solo el medio; el objetivo es que tu empresa sea más eficiente y venda más.
+              Construimos productos enfocados en resolver problemas de negocio. La tecnología es el medio; el objetivo es que tu empresa tenga una presencia sólida, sea más eficiente y venda más.
             </p>
           </motion.div>
         </div>

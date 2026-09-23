@@ -18,9 +18,9 @@ export function TechSection() {
             <span className="inline-block px-3 py-1 mb-6 text-xs font-medium font-mono uppercase tracking-widest text-primary border border-primary/30 bg-primary/5 rounded-sm">
               Tecnologías
             </span>
-            <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6">El estándar de la industria</h2>
+            <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6">Herramientas para construir productos modernos</h2>
             <p className="text-lg text-foreground-muted font-light max-w-3xl mx-auto leading-relaxed">
-              Construyo tus productos utilizando las mismas herramientas que potencian a las tecnológicas líderes. Un stack moderno, seguro y diseñado para escalar.
+              Utilizamos las mismas tecnologías que potencian a las empresas tecnológicas líderes, pero al servicio de tu negocio. Un stack moderno, seguro y diseñado para escalar tu proyecto.
             </p>
           </div>
         </Reveal>

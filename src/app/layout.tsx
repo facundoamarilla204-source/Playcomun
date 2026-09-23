@@ -21,17 +21,17 @@ const FloatingWhatsApp = dynamic(() => import("@/components/ui/FloatingWhatsApp"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.playcomun.com"),
-  title: "PlayComun | Desarrollo Web y Software a Medida",
-  description: "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
-  keywords: ["desarrollo web", "software a medida", "plataforma saas", "desarrollo saas", "aplicaciones web", "desarrollador freelance", "crear aplicacion web", "agencia de software"],
+  title: "PlayComun | Páginas Web, Aplicaciones Web y Plataformas SaaS",
+  description: "PlayComun diseña y desarrolla páginas web, aplicaciones web, plataformas SaaS y sistemas personalizados para empresas, emprendimientos y negocios.",
+  keywords: ["desarrollo de páginas web", "crear plataforma saas", "desarrollo de aplicaciones web", "sistemas web a medida", "estudio de diseño y desarrollo"],
   authors: [{ name: "PlayComun" }],
   creator: "PlayComun",
   publisher: "PlayComun",
   openGraph: {
     type: "website",
     siteName: "PlayComun",
-    title: "PlayComun | Desarrollo Web y Software a Medida",
-    description: "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
+    title: "PlayComun | Páginas Web, Aplicaciones Web y Plataformas SaaS",
+    description: "PlayComun diseña y desarrolla páginas web, aplicaciones web, plataformas SaaS y sistemas personalizados para empresas, emprendimientos y negocios.",
     url: "https://www.playcomun.com/",
     images: [
       {
@@ -44,8 +44,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PlayComun | Desarrollo Web y Software a Medida",
-    description: "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
+    title: "PlayComun | Páginas Web, Aplicaciones Web y Plataformas SaaS",
+    description: "PlayComun diseña y desarrolla páginas web, aplicaciones web, plataformas SaaS y sistemas personalizados para empresas, emprendimientos y negocios.",
     images: ["/og/playcomun-og.png"],
   },
   alternates: {
@@ -63,7 +63,7 @@ const jsonLd = {
       "url": "https://www.playcomun.com/",
       "logo": "https://www.playcomun.com/logo.png",
       "image": "https://www.playcomun.com/og/playcomun-og.png",
-      "description": "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
+      "description": "PlayComun diseña y desarrolla páginas web, aplicaciones web, plataformas SaaS y sistemas personalizados.",
       "brand": [
         {
           "@type": "Brand",
@@ -85,7 +85,7 @@ const jsonLd = {
       "@id": "https://www.playcomun.com/#website",
       "url": "https://www.playcomun.com/",
       "name": "PlayComun",
-      "description": "Desarrollo de software a medida, aplicaciones web y plataformas SaaS.",
+      "description": "PlayComun diseña y desarrolla páginas web, aplicaciones web, plataformas SaaS y sistemas personalizados.",
       "publisher": {
         "@id": "https://www.playcomun.com/#organization"
       }

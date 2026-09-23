@@ -28,7 +28,7 @@ export function Footer() {
               <Logo className="h-[40px] w-auto group-hover:opacity-80 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]" />
             </Link>
             <p className="text-foreground-muted text-sm font-light max-w-sm leading-relaxed mb-8">
-              Estudio de desarrollo de software a medida. Construyo aplicaciones web, plataformas SaaS y productos digitales escalables. Trabajo directo, sin intermediarios.
+              Estudio de desarrollo de productos digitales. Diseñamos y desarrollamos páginas web, plataformas SaaS y aplicaciones a medida para empresas y emprendimientos.
             </p>
             <div className="flex gap-4 items-center">
               <a 

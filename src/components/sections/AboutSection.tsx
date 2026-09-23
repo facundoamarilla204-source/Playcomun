@@ -32,18 +32,18 @@ export function AboutSection() {
           >
             <div>
               <p className="mb-6">
-                Cuando me contactás, no hay un vendedor que después le pasa el proyecto a otro equipo. El que te responde es el mismo que va a diseñar la arquitectura y escribir cada línea de código de tu producto. Desde el primer mensaje hasta el día del lanzamiento.
+                A diferencia de una agencia tradicional, en PlayComun trabajás de forma directa y transparente. Desde el entendimiento de tu negocio hasta el diseño de la arquitectura y la programación final de tu plataforma.
               </p>
               <p>
-                Esa no es una limitación: es la principal ventaja estratégica. Al eliminar los teléfonos descompuestos de los project managers y account managers, evitamos que tu visión original se diluya en el camino.
+                Este enfoque nos permite evitar teléfonos descompuestos y costos ocultos. Mantenemos el control total sobre la calidad del producto y nos aseguramos de que cada decisión técnica aporte un valor real a tu empresa.
               </p>
             </div>
             <div>
               <p className="mb-6">
-                Mercury Eventos y FitAdmi no son casos de un cliente anónimo. Son productos SaaS reales que diseñé, desarrollé y lancé por mi cuenta para validar mi capacidad técnica y mi forma de trabajar antes de ofrecértela.
+                Construimos proyectos sólidos, desde sitios institucionales enfocados en conversión hasta aplicaciones SaaS con bases de datos complejas. Nuestro portafolio es la demostración de la capacidad para lanzar productos de principio a fin.
               </p>
               <p className="font-medium text-foreground">
-                No compito con grandes agencias en cantidad de empleados. Compito en responsabilidad técnica directa: vas a tener a una sola persona altamente calificada a cargo de que tu proyecto escale y funcione.
+                No competimos en cantidad de empleados, competimos en excelencia técnica y atención personalizada. Cada línea de código que entregamos está pensada para escalar.
               </p>
             </div>
           </motion.div>
