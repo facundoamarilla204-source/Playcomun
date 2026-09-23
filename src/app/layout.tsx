@@ -6,14 +6,18 @@ const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
-import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
+import dynamic from "next/dynamic";
+
+const FloatingWhatsApp = dynamic(() => import("@/components/ui/FloatingWhatsApp").then(mod => mod.FloatingWhatsApp));
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.playcomun.com"),
