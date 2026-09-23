@@ -2,10 +2,10 @@
 
 @theme {
   /* ── Surfaces ── */
-  --color-background: #09090b;
-  --color-surface: #18181b;
-  --color-surface-hover: #27272a;
-  --color-surface-elevated: #27272a;
+  --color-background: #0e0d15;
+  --color-surface: #161520;
+  --color-surface-hover: #222030;
+  --color-surface-elevated: #222030;
 
   /* ── Text ── */
   --color-foreground: #fafafa;
