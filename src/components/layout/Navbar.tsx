@@ -31,7 +31,8 @@ export function Navbar() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.32, 0.72, 0, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-5"
+        className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${scrolled ? "pt-0" : "pt-5"
+          }`}
       >
         <div
           className={`flex items-center justify-between w-full mx-auto px-6 py-4 border-b transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${scrolled
