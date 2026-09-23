@@ -21,16 +21,16 @@ const FloatingWhatsApp = dynamic(() => import("@/components/ui/FloatingWhatsApp"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.playcomun.com"),
-  title: "PlayComun | Software a Medida & Plataformas SaaS",
+  title: "PlayComun | Desarrollo Web y Software a Medida",
   description: "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
-  keywords: ["desarrollo web", "software a medida", "plataforma saas", "desarrollador freelance", "crear aplicacion web", "agencia de software"],
+  keywords: ["desarrollo web", "software a medida", "plataforma saas", "desarrollo saas", "aplicaciones web", "desarrollador freelance", "crear aplicacion web", "agencia de software"],
   authors: [{ name: "PlayComun" }],
   creator: "PlayComun",
   publisher: "PlayComun",
   openGraph: {
     type: "website",
     siteName: "PlayComun",
-    title: "PlayComun | Software a Medida & Plataformas SaaS",
+    title: "PlayComun | Desarrollo Web y Software a Medida",
     description: "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
     url: "https://www.playcomun.com/",
     images: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PlayComun | Software a Medida & Plataformas SaaS",
+    title: "PlayComun | Desarrollo Web y Software a Medida",
     description: "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
     images: ["/og/playcomun-og.png"],
   },
