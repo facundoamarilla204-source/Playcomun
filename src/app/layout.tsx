@@ -63,22 +63,7 @@ const jsonLd = {
       "url": "https://www.playcomun.com/",
       "logo": "https://www.playcomun.com/logo.png",
       "image": "https://www.playcomun.com/og/playcomun-og.png",
-      "description": "PlayComun diseña y desarrolla páginas web, aplicaciones web, plataformas SaaS y sistemas personalizados.",
-      "brand": [
-        {
-          "@type": "Brand",
-          "name": "Mercury Eventos",
-          "url": "https://mercuryeventos.online/"
-        },
-        {
-          "@type": "Brand",
-          "name": "FitAdmi"
-        },
-        {
-          "@type": "Brand",
-          "name": "TurnoGol"
-        }
-      ]
+      "description": "PlayComun diseña y desarrolla páginas web, aplicaciones web, plataformas SaaS y sistemas personalizados."
     },
     {
       "@type": "WebSite",
