@@ -25,37 +25,37 @@ export function Footer() {
           {/* Brand & Socials */}
           <div className="md:col-span-4 lg:col-span-5">
             <Link href="/" className="inline-flex items-center gap-2 mb-6 group">
-              <Logo className="h-[45px] w-auto group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]" />
+              <Logo className="h-[40px] w-auto group-hover:opacity-80 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]" />
             </Link>
-            <p className="text-foreground-muted text-sm max-w-sm leading-relaxed mb-8">
-              Desarrollo de software a medida: aplicaciones web, plataformas SaaS y productos digitales. Trabajo directo, sin intermediarios.
+            <p className="text-foreground-muted text-sm font-light max-w-sm leading-relaxed mb-8">
+              Estudio de desarrollo de software a medida. Construyo aplicaciones web, plataformas SaaS y productos digitales escalables. Trabajo directo, sin intermediarios.
             </p>
             <div className="flex gap-4 items-center">
               <a 
                 href="https://instagram.com/Playcomundev" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="h-10 w-10 rounded-full bg-surface-elevated border border-border/50 flex items-center justify-center text-foreground-muted hover:text-primary hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_15px_rgba(var(--color-primary-rgb),0.2)]"
+                className="h-10 w-10 rounded-md bg-surface border border-border flex items-center justify-center text-foreground-muted hover:text-primary hover:border-primary/50 transition-all duration-300"
                 aria-label="Instagram"
               >
-                <InstagramIcon className="w-5 h-5" />
+                <InstagramIcon className="w-4 h-4" />
               </a>
               <a 
                 href="https://wa.me/5491134321946" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="h-10 w-10 rounded-full bg-surface-elevated border border-border/50 flex items-center justify-center text-foreground-muted hover:text-green-500 hover:border-green-500/50 transition-all duration-300 hover:shadow-[0_0_15px_rgba(34,197,94,0.2)]"
+                className="h-10 w-10 rounded-md bg-surface border border-border flex items-center justify-center text-foreground-muted hover:text-success hover:border-success/50 transition-all duration-300"
                 aria-label="WhatsApp"
               >
-                <WhatsAppIcon className="w-5 h-5" />
+                <WhatsAppIcon className="w-4 h-4" />
               </a>
             </div>
           </div>
 
           {/* Navegación */}
           <div className="md:col-span-3 lg:col-span-2">
-            <h4 className="text-xs font-mono uppercase tracking-[0.2em] text-foreground-subtle mb-6">Navegación</h4>
-            <ul className="space-y-3">
+            <h4 className="text-xs font-mono uppercase tracking-widest text-foreground-subtle mb-6">Navegación</h4>
+            <ul className="space-y-4">
               {["Inicio","Proyectos","Servicios","Sobre mí"].map(item => (
                 <li key={item}>
                   <Link href={item === "Sobre mí" ? "#nosotros" : `#${item.toLowerCase()}`} className="text-sm text-foreground-muted hover:text-foreground transition-colors duration-300">
@@ -68,8 +68,8 @@ export function Footer() {
 
           {/* Contacto */}
           <div className="md:col-span-5 lg:col-span-5">
-            <h4 className="text-xs font-mono uppercase tracking-[0.2em] text-foreground-subtle mb-6">Contacto</h4>
-            <ul className="space-y-4">
+            <h4 className="text-xs font-mono uppercase tracking-widest text-foreground-subtle mb-6">Contacto</h4>
+            <ul className="space-y-5">
               <li>
                 <a href="mailto:playcomun.ok@gmail.com" className="group flex items-start gap-3 text-sm text-foreground-muted hover:text-foreground transition-colors duration-300">
                   <div className="mt-0.5 p-1.5 rounded-md bg-surface-elevated border border-border/50 group-hover:border-primary/50 group-hover:text-primary transition-colors">

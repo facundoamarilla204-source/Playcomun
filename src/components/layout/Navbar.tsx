@@ -34,14 +34,14 @@ export function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-5"
       >
         <div
-          className={`flex items-center justify-between w-full max-w-5xl mx-4 px-6 py-3 rounded-full transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${scrolled
-              ? "bg-surface/60 backdrop-blur-2xl border border-border shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-              : "bg-transparent border border-transparent"
+          className={`flex items-center justify-between w-full mx-auto px-6 py-4 border-b transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${scrolled
+              ? "bg-background/90 backdrop-blur-xl border-border"
+              : "bg-transparent border-transparent"
             }`}
         >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 group" aria-label="Ir al inicio">
-            <Logo className="h-[45px] md:h-[53px] w-auto group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]" />
+            <Logo className="h-[40px] md:h-[45px] w-auto group-hover:opacity-80 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]" />
           </Link>
 
           {/* Desktop Nav */}

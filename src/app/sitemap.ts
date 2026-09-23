@@ -1,17 +1,15 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://playcomun.com";
-
   return [
     {
-      url: `${baseUrl}`,
+      url: "https://playcomun.com/",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,
     },
     {
-      url: `${baseUrl}/privacidad`,
+      url: "https://playcomun.com/privacidad",
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.5,

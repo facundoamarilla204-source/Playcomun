@@ -2,30 +2,30 @@
 
 @theme {
   /* ── Surfaces ── */
-  --color-background: #0B0B0F;
-  --color-surface: #17181D;
-  --color-surface-hover: #1E1F26;
-  --color-surface-elevated: #22232A;
+  --color-background: #09090b;
+  --color-surface: #18181b;
+  --color-surface-hover: #27272a;
+  --color-surface-elevated: #27272a;
 
   /* ── Text ── */
-  --color-foreground: #FFFFFF;
-  --color-foreground-muted: #8B8D98;
-  --color-foreground-subtle: #5C5E6A;
+  --color-foreground: #fafafa;
+  --color-foreground-muted: #a1a1aa;
+  --color-foreground-subtle: #71717a;
 
   /* ── Accent ── */
-  --color-primary: #7C3AED;
-  --color-primary-hover: #6D28D9;
-  --color-indigo: #5B5CEB;
-  --color-electric: #3B82F6;
+  --color-primary: #731dd8;
+  --color-primary-hover: #5d15b0;
+  --color-indigo: #4f46e5;
+  --color-electric: #731dd8;
 
   /* ── Feedback ── */
-  --color-success: #10B981;
-  --color-warning: #FBBF24;
-  --color-error: #EF4444;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
 
   /* ── Borders ── */
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-hover: rgba(255, 255, 255, 0.15);
+  --color-border: #27272a;
+  --color-border-hover: #3f3f46;
 
   /* ── Fonts ── */
   --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
@@ -59,58 +59,27 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.1);
-  border-radius: 999px;
 }
 
 /* ── Global Utilities ── */
 @layer utilities {
   .container-play {
     width: 100%;
-    max-width: 1280px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, #7C3AED 0%, #5B5CEB 50%, #3B82F6 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .gradient-border {
-    border: 1px solid transparent;
-    background-image: linear-gradient(var(--color-surface), var(--color-surface)),
-                      linear-gradient(135deg, rgba(124,58,237,0.4), rgba(59,130,246,0.4));
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-  }
-
-  .noise-overlay {
-    position: relative;
-  }
-  .noise-overlay::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  @keyframes infinite-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  .animate-infinite-scroll {
-    animation: infinite-scroll 40s linear infinite;
-  }
-
-  .animate-infinite-scroll:hover {
-    animation-play-state: paused;
+    border: 1px solid var(--color-border);
   }
 }

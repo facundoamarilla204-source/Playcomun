@@ -14,13 +14,13 @@ export function TechSection() {
     <section id="tecnologias" className="py-32">
       <div className="container-play">
         <Reveal>
-          <div className="text-center mb-20">
-            <span className="inline-block px-4 py-1.5 mb-6 text-[11px] font-semibold font-mono uppercase tracking-[0.2em] text-electric bg-electric/10 border border-electric/20 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.2)]">
-              Stack
+          <div className="text-center mb-16">
+            <span className="inline-block px-3 py-1 mb-6 text-xs font-medium font-mono uppercase tracking-widest text-primary border border-primary/30 bg-primary/5 rounded-sm">
+              Tecnologías
             </span>
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">El estándar de la industria</h2>
-            <p className="text-lg text-foreground-muted mt-6 max-w-3xl mx-auto">
-              Construyo tus productos utilizando las mismas herramientas que potencian a las startups más rápidas del mundo. Un stack tecnológico moderno, seguro y diseñado para escalar sin límites.
+            <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6">El estándar de la industria</h2>
+            <p className="text-lg text-foreground-muted font-light max-w-3xl mx-auto leading-relaxed">
+              Construyo tus productos utilizando las mismas herramientas que potencian a las tecnológicas líderes. Un stack moderno, seguro y diseñado para escalar.
             </p>
           </div>
         </Reveal>

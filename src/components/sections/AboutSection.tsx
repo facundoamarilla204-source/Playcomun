@@ -1,51 +1,52 @@
 "use client";
 
-import Image from "next/image";
-import { Reveal } from "@/components/ui/Reveal";
-import { Button } from "@/components/ui/Button";
+import { motion } from "framer-motion";
 
 export function AboutSection() {
   return (
-    <section id="nosotros" className="py-32">
+    <section id="nosotros" className="py-32 bg-background">
       <div className="container-play">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <Reveal>
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center text-center"
+          >
+            <span className="inline-block px-3 py-1 mb-10 text-xs font-medium font-mono uppercase tracking-widest text-primary border border-primary/30 bg-primary/5 rounded-sm">
+              El Diferencial
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-12 leading-[1.15]">
+              Conmigo hablás,<br />
+              conmigo trabajás.
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 text-lg text-foreground-muted font-light leading-relaxed"
+          >
             <div>
-              <span className="inline-block px-4 py-1.5 mb-6 text-[11px] font-semibold font-mono uppercase tracking-[0.2em] text-primary bg-primary/10 border border-primary/20 rounded-full shadow-[0_0_15px_rgba(124,58,237,0.2)]">
-                Sobre mí
-              </span>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-8 leading-[1.1]">
-                Conmigo hablás,<br />
-                <span className="gradient-text">conmigo trabajás.</span>
-              </h2>
-              <p className="text-lg text-foreground-muted leading-relaxed mb-6">
-                Cuando me escribís, no hay un vendedor que después le pasa el proyecto a otro. El que te responde es el mismo que va a escribir cada línea de código de tu producto — desde el primer mensaje hasta el día que lo publicás.
+              <p className="mb-6">
+                Cuando me contactás, no hay un vendedor que después le pasa el proyecto a otro equipo. El que te responde es el mismo que va a diseñar la arquitectura y escribir cada línea de código de tu producto. Desde el primer mensaje hasta el día del lanzamiento.
               </p>
-              <p className="text-lg text-foreground-muted leading-relaxed mb-6">
-                Esa no es una limitación: es la razón por la que no se pierde nada en el camino. Mercury, FitAdmi y TurnoGol no son casos de un cliente que no podés ver — son productos que construí por mi cuenta para probar mi forma de trabajar antes de ofrecértela a vos.
+              <p>
+                Esa no es una limitación: es la principal ventaja estratégica. Al eliminar los teléfonos descompuestos de los project managers y account managers, evitamos que tu visión original se diluya en el camino.
               </p>
-              <p className="text-lg text-foreground-muted leading-relaxed mb-6">
-                No compito con una agencia en cantidad de gente. Compito en que vas a tener una sola persona responsable de que tu proyecto funcione, sin nadie en el medio traduciendo lo que pediste en algo distinto.
-              </p>
-              <p className="text-lg text-foreground-muted leading-relaxed mb-10">
-                Si tenés una idea que necesita convertirse en real, hablemos 15 minutos y vemos si puedo ayudarte.
-              </p>
-              <Button variant="primary" size="lg" href="#contacto">Hablemos</Button>
             </div>
-          </Reveal>
-          <Reveal delay={0.3}>
-            <div className="relative group w-full h-full flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-indigo/20 blur-3xl opacity-30 group-hover:opacity-50 transition-opacity duration-700" />
-              <Image
-                src="/developer_illustration.png"
-                alt="Ilustración de desarrollo web moderno"
-                width={600}
-                height={600}
-                priority
-                className="relative z-10 w-full max-w-lg h-auto object-contain transform transition-transform duration-700 group-hover:scale-105 mix-blend-screen pointer-events-none scale-110"
-              />
+            <div>
+              <p className="mb-6">
+                Mercury Eventos y FitAdmi no son casos de un cliente anónimo. Son productos SaaS reales que diseñé, desarrollé y lancé por mi cuenta para validar mi capacidad técnica y mi forma de trabajar antes de ofrecértela.
+              </p>
+              <p className="font-medium text-foreground">
+                No compito con grandes agencias en cantidad de empleados. Compito en responsabilidad técnica directa: vas a tener a una sola persona altamente calificada a cargo de que tu proyecto escale y funcione.
+              </p>
             </div>
-          </Reveal>
+          </motion.div>
         </div>
       </div>
     </section>
