@@ -66,16 +66,16 @@ const jsonLd = {
       "description": "Desarrollo de software a medida, aplicaciones web y plataformas SaaS. Construimos productos digitales y sistemas adaptados a las necesidades de cada negocio.",
       "brand": [
         {
-          "@type": "Product",
+          "@type": "Brand",
           "name": "Mercury Eventos",
           "url": "https://mercuryeventos.online/"
         },
         {
-          "@type": "Product",
+          "@type": "Brand",
           "name": "FitAdmi"
         },
         {
-          "@type": "Product",
+          "@type": "Brand",
           "name": "TurnoGol"
         }
       ]
