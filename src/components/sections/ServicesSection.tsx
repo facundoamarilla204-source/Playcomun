@@ -36,7 +36,7 @@ export function ServicesSection() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block px-3 py-1 mb-6 text-xs font-medium font-mono uppercase tracking-widest text-primary border border-primary/30 bg-primary/5 rounded-sm">
+            <span className="block mb-4 text-xs font-medium font-mono uppercase tracking-widest text-foreground-subtle">
               Especialidad
             </span>
             <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6">

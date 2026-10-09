@@ -13,10 +13,11 @@
   --color-foreground-subtle: #71717a;
 
   /* ── Accent ── */
-  --color-primary: #731dd8;
-  --color-primary-hover: #5d15b0;
+  --color-primary: #6e56cf;
+  --color-primary-hover: #5a43b8;
+  --color-primary-foreground: #ffffff;
   --color-indigo: #4f46e5;
-  --color-electric: #731dd8;
+  --color-electric: #6e56cf;
 
   /* ── Feedback ── */
   --color-success: #10b981;

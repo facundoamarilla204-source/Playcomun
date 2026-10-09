@@ -261,7 +261,7 @@ const CustomSystemPreview = () => (
 
 
 export function ShowcaseSection() {
-  const [activeItem, setActiveItem] = useState(showcaseItems[0].id);
+  const [activeItem, setActiveItem] = useState<string | null>(showcaseItems[0].id);
   const [scale, setScale] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -277,12 +277,20 @@ export function ShowcaseSection() {
   }, []);
 
   const handlePrev = () => {
+    if (activeItem === null) {
+      setActiveItem(showcaseItems[showcaseItems.length - 1].id);
+      return;
+    }
     const idx = showcaseItems.findIndex(i => i.id === activeItem);
     const newIdx = idx === 0 ? showcaseItems.length - 1 : idx - 1;
     setActiveItem(showcaseItems[newIdx].id);
   };
 
   const handleNext = () => {
+    if (activeItem === null) {
+      setActiveItem(showcaseItems[0].id);
+      return;
+    }
     const idx = showcaseItems.findIndex(i => i.id === activeItem);
     const newIdx = idx === showcaseItems.length - 1 ? 0 : idx + 1;
     setActiveItem(showcaseItems[newIdx].id);
@@ -316,7 +324,7 @@ export function ShowcaseSection() {
                     <motion.button
                       layout
                       key={item.id}
-                      onClick={() => setActiveItem(item.id)}
+                      onClick={() => setActiveItem(isActive ? null : item.id)}
                       className={`relative flex flex-col gap-2 px-6 py-4 rounded-2xl text-left transition-all duration-300 w-full group border overflow-hidden ${
                         isActive 
                           ? "bg-background border-primary/20 shadow-lg shadow-primary/5" 
@@ -415,6 +423,17 @@ export function ShowcaseSection() {
                           {activeItem === "app" && <WebAppPreview />}
                           {activeItem === "saas" && <SaasPreview />}
                           {activeItem === "custom" && <CustomSystemPreview />}
+                          {!activeItem && (
+                            <div className="w-full h-full flex flex-col items-center justify-center bg-[#0a0a0c] text-white/50 font-sans p-8 text-center">
+                              <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/></svg>
+                              </div>
+                              <h3 className="text-xl font-bold text-white/80 mb-2">Selecciona una solución</h3>
+                              <p className="text-xs max-w-sm text-white/40">
+                                Haz clic en las opciones para ver la estructura, paneles y flujos de datos de cada tecnología.
+                              </p>
+                            </div>
+                          )}
                         </motion.div>
                       </AnimatePresence>
                     </div>
@@ -443,7 +462,7 @@ export function ShowcaseSection() {
                     return (
                       <button
                         key={item.id}
-                        onClick={() => setActiveItem(item.id)}
+                        onClick={() => setActiveItem(isActive ? null : item.id)}
                         className={`flex-shrink-0 snap-center px-5 py-2.5 rounded-full text-sm font-medium transition-all border ${
                           isActive 
                             ? "bg-primary text-primary-foreground border-primary shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]" 
@@ -464,7 +483,7 @@ export function ShowcaseSection() {
                   
                   <div className="flex-1 flex flex-col items-center">
                     <p className="text-muted-foreground text-[13px] text-center leading-relaxed">
-                       {showcaseItems.find(i => i.id === activeItem)?.description}
+                       {activeItem ? showcaseItems.find(i => i.id === activeItem)?.description : "Selecciona una opción arriba para ver los detalles."}
                     </p>
                   </div>
                   
