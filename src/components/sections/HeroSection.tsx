@@ -1,170 +1,245 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { Activity, Code2, Database, LayoutTemplate, ShieldCheck, Zap } from "lucide-react";
 
 export function HeroSection() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const section = sectionRef.current;
+    if (!canvas || !section) return;
+    
+    const ctx = canvas.getContext('2d', { alpha: false }); // Optimización: alpha false para fondo opaco más rápido
+    if (!ctx) return;
+    
+    let width: number, height: number;
+    let animationFrameId: number;
+    let isVisible = true;
+    
+    let mouse = { x: null as number | null, y: null as number | null, radius: 180 };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (!isVisible) return;
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = event.clientX - rect.left;
+      mouse.y = event.clientY - rect.top;
+    };
+    
+    const handleTouchMove = (event: TouchEvent) => {
+      if (!isVisible) return;
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = event.touches[0].clientX - rect.left;
+      mouse.y = event.touches[0].clientY - rect.top;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.x = null;
+      mouse.y = null;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('touchend', handleMouseLeave);
+
+    const resize = () => {
+      width = canvas.clientWidth;
+      height = canvas.clientHeight;
+      // Optimización: Limitar DPR máximo a 2 para no destrozar el rendimiento en celulares modernos Retina
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
+    };
+    
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+
+    class Particle {
+      x!: number;
+      y!: number;
+      vx!: number;
+      radius!: number;
+      angle!: number;
+      angleSpeed!: number;
+      baseAngleSpeed!: number;
+      amplitude!: number;
+      baseY!: number;
+      color!: string;
+
+      constructor() {
+        this.reset(true);
+      }
+
+      reset(randomizeX = false) {
+        this.x = randomizeX ? Math.random() * width : -10;
+        const flowCenterY = height / 2;
+        const spread = height * 0.4;
+        this.y = flowCenterY + (Math.random() - 0.5) * spread;
+        this.baseY = this.y;
+        this.vx = Math.random() * 1.5 + 0.5;
+        this.radius = Math.random() * 1.5 + 0.5;
+        this.angle = Math.random() * Math.PI * 2;
+        this.angleSpeed = Math.random() * 0.02 + 0.01;
+        this.baseAngleSpeed = this.angleSpeed;
+        this.amplitude = Math.random() * 30 + 10;
+        
+        const rand = Math.random();
+        if (rand > 0.9) {
+          this.color = '#6e56cf'; // Primary violet
+          this.radius *= 1.5;
+        } else if (rand > 0.6) {
+          this.color = 'rgba(167, 139, 250, 0.6)'; // Faint violet
+        } else {
+          this.color = 'rgba(255, 255, 255, 0.4)'; // White
+        }
+      }
+
+      update() {
+        let dx_flow = this.vx;
+        let targetY = this.baseY + Math.sin(this.angle + this.x * 0.005) * this.amplitude;
+        let dx_repel = 0;
+        let dy_repel = 0;
+
+        if (mouse.x !== null && mouse.y !== null) {
+          let dx = this.x - mouse.x;
+          let dy = this.y - mouse.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < mouse.radius) {
+            let force = (mouse.radius - distance) / mouse.radius;
+            force = Math.pow(force, 1.5); 
+            let angle = Math.atan2(dy, dx);
+            dx_repel = Math.cos(angle) * force * 15;
+            dy_repel = Math.sin(angle) * force * 15;
+            this.angleSpeed += 0.005;
+          }
+        }
+
+        if (this.angleSpeed > this.baseAngleSpeed) {
+          this.angleSpeed -= 0.001;
+        }
+
+        this.angle += this.angleSpeed;
+        this.baseY += Math.sin(this.angle * 0.5) * 0.3;
+
+        this.x += dx_flow + dx_repel;
+        this.y += (targetY - this.y) * 0.1 + dy_repel;
+
+        if (this.x > width + 50) {
+          this.reset();
+        } else if (this.x < -50) {
+          this.x = -10;
+        }
+      }
+
+      draw() {
+        if (!ctx) return;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = this.color;
+        ctx.fill();
+        ctx.shadowBlur = 0; 
+      }
+    }
+
+    const particles: Particle[] = [];
+    // Optimización: Reducir cantidad de partículas en móvil
+    const particleCount = window.innerWidth < 768 ? 100 : 350;
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    const animate = () => {
+      if (!isVisible) return; // Optimización vital: No computar si no se ve
+      
+      if (!ctx) return;
+      ctx.fillStyle = 'rgba(14, 13, 21, 0.18)';
+      ctx.fillRect(0, 0, width, height);
+
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    // Optimización: IntersectionObserver para apagar la animación si hacemos scroll hacia abajo
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          animate();
+        } else {
+          cancelAnimationFrame(animationFrameId);
+        }
+      });
+    }, { threshold: 0 });
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('touchend', handleMouseLeave);
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
   return (
-    <section id="inicio" className="relative min-h-screen flex items-center pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-background">
-      <div className="container-play relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+    <section ref={sectionRef} id="inicio" className="relative min-h-screen flex items-center justify-center pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-[#0e0d15]">
+      
+      {/* Background Interactive Particles */}
+      <div className="absolute inset-0 z-0">
+        <canvas 
+          ref={canvasRef} 
+          className="w-full h-full"
+        />
+      </div>
 
-          {/* Text Content */}
-          <div className="flex flex-col lg:col-span-6 relative z-20">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
+      <div className="container-play relative z-10 flex flex-col items-center text-center pointer-events-none">
+        
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight mb-8 max-w-4xl bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+        >
+          Páginas Web, Aplicaciones Web y Plataformas SaaS.
+        </motion.h1>
 
-            </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-lg md:text-xl text-zinc-400 leading-relaxed mb-12 max-w-2xl font-light"
+        >
+          Diseñamos y desarrollamos productos digitales modernos para empresas, emprendimientos y nuevas ideas.
+        </motion.p>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-[1.05] tracking-tight mb-8"
-            >
-              Páginas Web, Aplicaciones Web y Plataformas SaaS.
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-lg md:text-xl text-foreground-muted leading-relaxed mb-12 max-w-xl font-light"
-            >
-              Diseñamos y desarrollamos productos digitales modernos para empresas, emprendimientos y nuevas ideas.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              <Button size="lg" href="#contacto">
-                Crear mi proyecto
-              </Button>
-              <Button variant="outline" size="lg" href="#servicios">
-                Ver servicios
-              </Button>
-            </motion.div>
-          </div>
-
-          {/* Developer Illustration */}
-          <div className="lg:col-span-6 relative mt-12 lg:mt-0 flex justify-center items-center">
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-xl lg:max-w-2xl mx-auto lg:ml-auto flex justify-center items-center lg:scale-110 lg:translate-x-8"
-            >
-              <div className="w-full aspect-[4/3] lg:aspect-[16/10] relative flex items-center justify-center">
-                
-                {/* Glow de fondo para despegar la UI */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/20 blur-[100px] rounded-full pointer-events-none"></div>
-
-                {/* Main Dashboard Window */}
-                <div className="relative w-full h-full bg-[#0d0714]/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden">
-                  
-                  {/* Window Header */}
-                  <div className="h-10 bg-white/[0.02] border-b border-white/10 flex items-center px-4 justify-between">
-                    <div className="flex gap-2">
-                      <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                      <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                      <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                    </div>
-                    <div className="flex items-center gap-2 bg-black/40 px-3 py-1 rounded text-xs font-mono text-white/40 border border-white/5">
-                      <ShieldCheck className="w-3 h-3 text-green-400" />
-                      <span>playcomun.com/app</span>
-                    </div>
-                    <div className="w-12"></div> {/* spacer */}
-                  </div>
-
-                  {/* Dashboard Layout */}
-                  <div className="flex flex-1 overflow-hidden">
-                    
-                    {/* Sidebar */}
-                    <div className="w-16 md:w-48 bg-white/[0.01] border-r border-white/5 flex flex-col gap-2 p-3">
-                      <div className="h-8 rounded bg-primary/20 flex items-center gap-3 px-2 text-primary font-medium text-sm">
-                        <LayoutTemplate className="w-4 h-4" />
-                        <span className="hidden md:block">Dashboard</span>
-                      </div>
-                      <div className="h-8 rounded hover:bg-white/5 flex items-center gap-3 px-2 text-white/50 text-sm">
-                        <Database className="w-4 h-4" />
-                        <span className="hidden md:block">Databases</span>
-                      </div>
-                      <div className="h-8 rounded hover:bg-white/5 flex items-center gap-3 px-2 text-white/50 text-sm">
-                        <Code2 className="w-4 h-4" />
-                        <span className="hidden md:block">API Keys</span>
-                      </div>
-                    </div>
-
-                    {/* Main Content (Bento Grid) */}
-                    <div className="flex-1 p-4 md:p-6 grid grid-cols-2 gap-4">
-                      
-                      {/* Metric 1 */}
-                      <div className="col-span-2 md:col-span-1 bg-white/[0.03] border border-white/5 rounded-xl p-4 flex flex-col justify-between group hover:border-primary/50 transition-colors">
-                        <div className="text-white/50 text-xs font-mono mb-2">Performance (TTFB)</div>
-                        <div className="flex items-end gap-2">
-                          <span className="text-3xl font-bold text-white tracking-tighter">45</span>
-                          <span className="text-primary text-sm mb-1 font-mono">ms</span>
-                        </div>
-                        <div className="w-full h-1.5 bg-black/50 rounded-full mt-4 overflow-hidden">
-                          <div className="w-[85%] h-full bg-gradient-to-r from-primary to-[#c4b5fd] rounded-full"></div>
-                        </div>
-                      </div>
-
-                      {/* Metric 2 */}
-                      <div className="col-span-2 md:col-span-1 bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 rounded-xl p-4 relative overflow-hidden">
-                        <div className="absolute -right-4 -top-4 text-primary/10">
-                          <Activity className="w-24 h-24" />
-                        </div>
-                        <div className="text-primary/70 text-xs font-mono mb-2 relative z-10">Uptime Global</div>
-                        <div className="text-3xl font-bold text-white relative z-10 tracking-tighter">99.99%</div>
-                        <div className="mt-4 flex items-center gap-2 text-xs text-green-400 font-mono relative z-10">
-                          <Zap className="w-3 h-3" />
-                          <span>All systems operational</span>
-                        </div>
-                      </div>
-
-                      {/* Code Block Snippet */}
-                      <div className="col-span-2 bg-black/40 border border-white/5 rounded-xl p-4 font-mono text-[10px] md:text-xs leading-relaxed overflow-hidden">
-                        <div className="flex gap-2 border-b border-white/5 pb-2 mb-2">
-                          <div className="text-white/40">app.ts</div>
-                          <div className="text-primary border-b border-primary pb-2 -mb-2">deploy.config.js</div>
-                        </div>
-                        <p><span className="text-[#c4b5fd]">export const</span> <span className="text-blue-400">config</span> = {'{'}</p>
-                        <p className="pl-4"><span className="text-gray-400">runtime</span>: <span className="text-green-300">'edge'</span>,</p>
-                        <p className="pl-4"><span className="text-gray-400">regions</span>: [<span className="text-green-300">'gru1'</span>, <span className="text-green-300">'iad1'</span>],</p>
-                        <p className="pl-4"><span className="text-gray-400">scalable</span>: <span className="text-orange-400">true</span></p>
-                        <p>{'};'}</p>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-
-                <motion.div 
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -right-6 -bottom-6 bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-2xl flex items-center gap-3"
-                >
-                  <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div>
-                  </div>
-                  <div>
-                    <div className="text-white text-sm font-medium">Deployment Ready</div>
-                    <div className="text-white/50 text-xs font-mono">Production branch</div>
-                  </div>
-                </motion.div>
-
-              </div>
-            </motion.div>
-          </div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col sm:flex-row gap-4 pointer-events-auto"
+        >
+          <Button size="lg" href="#contacto">
+            Crear mi proyecto
+          </Button>
+          <Button variant="outline" size="lg" href="#servicios">
+            Ver servicios
+          </Button>
+        </motion.div>
       </div>
     </section>
   );
