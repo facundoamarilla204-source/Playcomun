@@ -10,17 +10,21 @@ const TechSection = dynamic(() => import("@/components/sections/TechSection").th
 const ProcessSection = dynamic(() => import("@/components/sections/ProcessSection").then(mod => mod.ProcessSection));
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection").then(mod => mod.AboutSection));
 const ContactSection = dynamic(() => import("@/components/sections/ContactSection").then(mod => mod.ContactSection));
+const ShowcaseSection = dynamic(() => import("@/components/sections/ShowcaseSection").then(mod => mod.ShowcaseSection));
+
 
 export default function Home() {
   return (
-    <main className="overflow-x-hidden w-full max-w-full">
+    <main className="w-full max-w-full">
       <Navbar />
       <HeroSection />
-      <StatsSection />
       <ServicesSection />
+      <ShowcaseSection />
       <ProjectsSection />
       <TechSection />
+      <StatsSection />
       <ProcessSection />
+
       <AboutSection />
       <ContactSection />
       <Footer />

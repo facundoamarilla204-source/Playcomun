@@ -48,7 +48,7 @@ export function ServicesSection() {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {services.map((service, index) => (
             <motion.div 
               key={service.title}
@@ -56,7 +56,9 @@ export function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group p-8 md:p-10 bg-background border border-border rounded-md hover:border-primary/40 transition-colors flex flex-col"
+              className={`group p-8 md:p-10 bg-background border border-border rounded-xl hover:border-primary/40 transition-colors flex flex-col ${
+                index === 1 || index === 2 ? 'lg:col-span-7' : 'lg:col-span-5'
+              }`}
             >
               <div className="mb-8">
                 <span className="text-xs font-mono uppercase tracking-widest text-foreground-subtle mb-2 block">

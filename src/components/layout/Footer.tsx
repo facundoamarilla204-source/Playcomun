@@ -56,7 +56,7 @@ export function Footer() {
           <div className="md:col-span-3 lg:col-span-2">
             <h4 className="text-xs font-mono uppercase tracking-widest text-foreground-subtle mb-6">Navegación</h4>
             <ul className="space-y-4">
-              {["Inicio","Proyectos","Servicios","Sobre mí"].map(item => (
+              {["Inicio","Servicios","Proyectos","Sobre mí"].map(item => (
                 <li key={item}>
                   <Link href={item === "Sobre mí" ? "#nosotros" : `#${item.toLowerCase()}`} className="text-sm text-foreground-muted hover:text-foreground transition-colors duration-300">
                     {item}

@@ -8,8 +8,8 @@ import { Logo } from "@/components/ui/Logo";
 
 const navLinks = [
   { label: "Inicio", href: "#inicio" },
-  { label: "Proyectos", href: "#proyectos" },
   { label: "Servicios", href: "#servicios" },
+  { label: "Proyectos", href: "#proyectos" },
   { label: "Tecnologías", href: "#tecnologias" },
   { label: "Sobre mí", href: "#nosotros" },
   { label: "Contacto", href: "#contacto" },
@@ -31,15 +31,11 @@ export function Navbar() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.32, 0.72, 0, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${scrolled ? "pt-0" : "pt-5"
-          }`}
+        className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+          scrolled ? "bg-background/90 backdrop-blur-xl border-b border-border pt-0" : "bg-transparent border-b border-transparent pt-2"
+        }`}
       >
-        <div
-          className={`flex items-center justify-between w-full mx-auto px-6 py-4 border-b transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${scrolled
-              ? "bg-background/90 backdrop-blur-xl border-border"
-              : "bg-transparent border-transparent"
-            }`}
-        >
+        <div className="flex items-center justify-between container-play w-full mx-auto px-6 py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 group" aria-label="Ir al inicio">
             <Logo className="h-[40px] md:h-[45px] w-auto group-hover:opacity-80 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]" />
