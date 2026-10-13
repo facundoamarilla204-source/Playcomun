@@ -11,6 +11,7 @@ const ProcessSection = dynamic(() => import("@/components/sections/ProcessSectio
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection").then(mod => mod.AboutSection));
 const ContactSection = dynamic(() => import("@/components/sections/ContactSection").then(mod => mod.ContactSection));
 const ShowcaseSection = dynamic(() => import("@/components/sections/ShowcaseSection").then(mod => mod.ShowcaseSection));
+const PlaycomunOnlineSection = dynamic(() => import("@/components/sections/PlaycomunOnlineSection").then(mod => mod.PlaycomunOnlineSection));
 
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       <ServicesSection />
       <ShowcaseSection />
       <ProjectsSection />
+      <PlaycomunOnlineSection />
       <TechSection />
       <StatsSection />
       <ProcessSection />

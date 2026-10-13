@@ -261,14 +261,19 @@ const CustomSystemPreview = () => (
 
 
 export function ShowcaseSection() {
-  const [activeItem, setActiveItem] = useState<string | null>(showcaseItems[0].id);
+  const [activeItem, setActiveItem] = useState<string | null>(null);
   const [scale, setScale] = useState(1);
+  const [isVisible, setIsVisible] = useState(false);
+  const [userSelected, setUserSelected] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const autoTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isOpen = activeItem !== null;
 
+  // Scale observer para el canvas de la notebook
   useEffect(() => {
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {
-        // Asume un ancho virtual de 800px para la maqueta
         setScale(entry.contentRect.width / 800);
       }
     });
@@ -276,28 +281,75 @@ export function ShowcaseSection() {
     return () => observer.disconnect();
   }, []);
 
-  const handlePrev = () => {
-    if (activeItem === null) {
-      setActiveItem(showcaseItems[showcaseItems.length - 1].id);
-      return;
+  // IntersectionObserver: arranca el autoplay al entrar al viewport
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [isVisible]);
+
+  // Autoplay: cicla los ítems cada 2.8s cuando la sección es visible y el usuario no seleccionó nada
+  useEffect(() => {
+    if (!isVisible) return;
+
+    // Pequeño delay inicial para que la notebook aparezca antes de cambiar el contenido
+    const startDelay = setTimeout(() => {
+      setActiveItem(showcaseItems[0].id);
+
+      autoTimerRef.current = setInterval(() => {
+        if (userSelected) return;
+        setActiveItem(prev => {
+          const idx = showcaseItems.findIndex(i => i.id === prev);
+          const next = (idx + 1) % showcaseItems.length;
+          return showcaseItems[next].id;
+        });
+      }, 2800);
+    }, 400);
+
+    return () => {
+      clearTimeout(startDelay);
+      if (autoTimerRef.current) clearInterval(autoTimerRef.current);
+    };
+  }, [isVisible, userSelected]);
+
+  // Al hacer clic el usuario detiene el auto-ciclo
+  const handleSelectItem = (id: string) => {
+    setUserSelected(true);
+    setActiveItem(prev => prev === id ? null : id);
+    if (autoTimerRef.current) {
+      clearInterval(autoTimerRef.current);
+      autoTimerRef.current = null;
     }
+  };
+
+  const handlePrev = () => {
+    setUserSelected(true);
+    if (autoTimerRef.current) clearInterval(autoTimerRef.current);
     const idx = showcaseItems.findIndex(i => i.id === activeItem);
-    const newIdx = idx === 0 ? showcaseItems.length - 1 : idx - 1;
+    const newIdx = idx <= 0 ? showcaseItems.length - 1 : idx - 1;
     setActiveItem(showcaseItems[newIdx].id);
   };
 
   const handleNext = () => {
-    if (activeItem === null) {
-      setActiveItem(showcaseItems[0].id);
-      return;
-    }
+    setUserSelected(true);
+    if (autoTimerRef.current) clearInterval(autoTimerRef.current);
     const idx = showcaseItems.findIndex(i => i.id === activeItem);
     const newIdx = idx === showcaseItems.length - 1 ? 0 : idx + 1;
     setActiveItem(showcaseItems[newIdx].id);
   };
 
   return (
-    <section className="relative w-full py-12 sm:py-24 overflow-hidden bg-surface flex items-center min-h-[95vh]">
+    <section ref={sectionRef} className="relative w-full py-12 sm:py-24 overflow-hidden bg-surface flex items-center min-h-[95vh]">
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl h-full flex flex-col justify-center">
         
         {/* Contenedor Card Principal */}
@@ -324,7 +376,7 @@ export function ShowcaseSection() {
                     <motion.button
                       layout
                       key={item.id}
-                      onClick={() => setActiveItem(isActive ? null : item.id)}
+                      onClick={() => handleSelectItem(item.id)}
                       className={`relative flex flex-col gap-2 px-6 py-4 rounded-2xl text-left transition-all duration-300 w-full group border overflow-hidden ${
                         isActive 
                           ? "bg-background border-primary/20 shadow-lg shadow-primary/5" 
@@ -361,6 +413,18 @@ export function ShowcaseSection() {
                         <span className={`font-semibold z-10 text-lg transition-colors ${isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"}`}>
                           {item.title}
                         </span>
+
+                        {/* Progress bar de autoplay — solo visible cuando no hay selección manual */}
+                        {isActive && !userSelected && (
+                          <div className="ml-auto z-10 w-20 h-1 rounded-full bg-white/10 overflow-hidden flex-shrink-0">
+                            <motion.div
+                              className="h-full bg-primary rounded-full"
+                              initial={{ width: "0%" }}
+                              animate={{ width: "100%" }}
+                              transition={{ duration: 2.8, ease: "linear" }}
+                            />
+                          </div>
+                        )}
                       </div>
 
                       <AnimatePresence>
@@ -384,73 +448,85 @@ export function ShowcaseSection() {
               </div>
             </div>
 
-            {/* Lado Derecho: Notebook y Controles Mobile */}
+            {/* Lado Derecho: Notebook */}
             <div className="w-full lg:w-2/3 flex flex-col justify-center items-center">
               
-              {/* Notebook */}
-              <div className="relative w-full max-w-[900px] aspect-[16/10] perspective-[1200px] group mt-6 lg:mt-0">
-                {/* Efecto de brillo de fondo de la notebook */}
-                <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              {/* Notebook — invisible hasta que hay ítem activo */}
+              <motion.div
+                className="relative w-full max-w-[820px] mt-6 lg:mt-0"
+                style={{ perspective: '1400px' }}
+                animate={{
+                  opacity: isOpen ? 1 : 0,
+                  scale: isOpen ? 1 : 0.94,
+                  y: isOpen ? 0 : 20,
+                }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {/* Glow de fondo */}
+                <div className="absolute inset-0 bg-primary/20 blur-[80px] rounded-full pointer-events-none" />
 
                 {/* Marco de la Notebook */}
-                <div className="relative w-full h-full rounded-t-[1rem] md:rounded-t-[2rem] bg-[#1a1b1e] border-[4px] md:border-[8px] border-[#2a2b2e] shadow-2xl overflow-hidden flex flex-col z-10 transition-transform duration-500 hover:scale-[1.02]">
+                <div className="relative w-full rounded-t-[1rem] md:rounded-t-[2rem] bg-[#1a1b1e] border-[4px] md:border-[8px] border-[#2a2b2e] shadow-2xl overflow-hidden flex flex-col z-10">
                   
                   {/* Notch / Cámara */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 md:w-32 h-3 md:h-6 bg-[#2a2b2e] rounded-b-lg md:rounded-b-xl z-20 flex justify-center items-end pb-0.5 md:pb-1">
                     <div className="w-1 md:w-2 h-1 md:h-2 rounded-full bg-[#111] border border-[#333] shadow-inner" />
                   </div>
 
-                  {/* Pantalla (Contenido Dinámico Escalonado) */}
-                  <div ref={containerRef} className="flex-1 bg-black overflow-hidden relative">
-                    <div 
-                      className="absolute top-0 left-0 origin-top-left flex items-center justify-center pointer-events-none"
-                      style={{ 
-                        width: '800px', 
-                        height: '500px',
-                        transform: `scale(${scale})`
-                      }}
+                  {/* Pantalla */}
+                  <div
+                    ref={containerRef}
+                    className="bg-black overflow-hidden relative"
+                    style={{ aspectRatio: '16/10' }}
+                  >
+                    <div
+                      className="absolute top-0 left-0 origin-top-left pointer-events-none"
+                      style={{ width: '800px', height: '500px', transform: `scale(${scale})` }}
                     >
                       <AnimatePresence mode="wait">
                         <motion.div
-                          key={activeItem}
-                          initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-                          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                          exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
-                          transition={{ duration: 0.3, ease: "easeOut" }}
-                          className="absolute inset-0 flex items-center justify-center w-full h-full"
+                          key={activeItem ?? 'empty'}
+                          initial={{ opacity: 0, filter: 'blur(8px)', scale: 0.98 }}
+                          animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
+                          exit={{ opacity: 0, filter: 'blur(8px)', scale: 1.02 }}
+                          transition={{ duration: 0.4, ease: 'easeOut' }}
+                          className="absolute inset-0 w-full h-full"
                         >
-                          {activeItem === "web" && <WebStructurePreview />}
-                          {activeItem === "app" && <WebAppPreview />}
-                          {activeItem === "saas" && <SaasPreview />}
-                          {activeItem === "custom" && <CustomSystemPreview />}
-                          {!activeItem && (
-                            <div className="w-full h-full flex flex-col items-center justify-center bg-[#0a0a0c] text-white/50 font-sans p-8 text-center">
-                              <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/></svg>
-                              </div>
-                              <h3 className="text-xl font-bold text-white/80 mb-2">Selecciona una solución</h3>
-                              <p className="text-xs max-w-sm text-white/40">
-                                Haz clic en las opciones para ver la estructura, paneles y flujos de datos de cada tecnología.
-                              </p>
-                            </div>
-                          )}
+                          {activeItem === 'web' && <WebStructurePreview />}
+                          {activeItem === 'app' && <WebAppPreview />}
+                          {activeItem === 'saas' && <SaasPreview />}
+                          {activeItem === 'custom' && <CustomSystemPreview />}
                         </motion.div>
                       </AnimatePresence>
                     </div>
                   </div>
-                  
-                  {/* Logo inferior o marco base */}
-                  <div className="h-4 md:h-6 bg-[#2a2b2e] w-full flex justify-center items-center">
+
+                  {/* Barra inferior del marco */}
+                  <div className="h-4 md:h-6 bg-[#2a2b2e] w-full flex justify-center items-center flex-shrink-0">
                     <span className="text-[5px] md:text-[8px] font-bold tracking-widest text-[#555]">PROBOOK</span>
                   </div>
                 </div>
 
                 {/* Base de la Notebook */}
-                <div className="absolute -bottom-2 md:-bottom-4 left-[-2%] right-[-2%] h-2 md:h-4 bg-gradient-to-b from-[#3a3b3e] to-[#1a1b1e] rounded-b-lg md:rounded-b-2xl rounded-t-sm shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8)] z-10 transition-transform duration-500 hover:scale-[1.02]">
-                  {/* Hendidura para abrir */}
+                <div className="relative left-[-2%] right-[-2%] w-[104%] h-3 md:h-5 bg-gradient-to-b from-[#3a3b3e] to-[#1a1b1e] rounded-b-lg md:rounded-b-2xl rounded-t-sm shadow-[0_20px_50px_-10px_rgba(0,0,0,0.9)] z-20">
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 md:w-24 h-0.5 md:h-1 bg-[#1a1b1e] rounded-b-sm" />
                 </div>
-              </div>
+
+                {/* Dots de navegación / progreso */}
+                <div className="flex justify-center gap-2 mt-6">
+                  {showcaseItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => handleSelectItem(item.id)}
+                      className={`transition-all duration-300 rounded-full ${
+                        activeItem === item.id
+                          ? 'w-6 h-2 bg-primary'
+                          : 'w-2 h-2 bg-white/20 hover:bg-white/40'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </motion.div>
 
               {/* Controles Mobile */}
               <div className="w-full mt-12 lg:hidden flex flex-col gap-6">
@@ -462,7 +538,7 @@ export function ShowcaseSection() {
                     return (
                       <button
                         key={item.id}
-                        onClick={() => setActiveItem(isActive ? null : item.id)}
+                        onClick={() => handleSelectItem(item.id)}
                         className={`flex-shrink-0 snap-center px-5 py-2.5 rounded-full text-sm font-medium transition-all border ${
                           isActive 
                             ? "bg-primary text-primary-foreground border-primary shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]" 
@@ -483,7 +559,7 @@ export function ShowcaseSection() {
                   
                   <div className="flex-1 flex flex-col items-center">
                     <p className="text-muted-foreground text-[13px] text-center leading-relaxed">
-                       {activeItem ? showcaseItems.find(i => i.id === activeItem)?.description : "Selecciona una opción arriba para ver los detalles."}
+                       {activeItem ? showcaseItems.find(i => i.id === activeItem)?.description : "Explora las arquitecturas disponibles."}
                     </p>
                   </div>
                   

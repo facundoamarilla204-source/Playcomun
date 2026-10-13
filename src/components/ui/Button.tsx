@@ -9,6 +9,8 @@ type ButtonBaseProps = {
   variant?: "primary" | "secondary" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
   href?: string;
+  target?: string;
+  rel?: string;
   children: React.ReactNode;
 };
 

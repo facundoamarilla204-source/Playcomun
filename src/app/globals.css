@@ -31,6 +31,7 @@
   /* ── Fonts ── */
   --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
+  --font-sora: var(--font-sora), system-ui, sans-serif;
 
   /* ── Animations ── */
   --animate-infinite-scroll: infinite-scroll 35s linear infinite;

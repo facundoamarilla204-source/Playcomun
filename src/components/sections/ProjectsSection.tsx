@@ -67,8 +67,8 @@ export function ProjectsSection() {
   const variants = {
     enter: (dir: number) => ({
       opacity: 0,
-      x: dir > 0 ? 80 : -80,
-      scale: 0.95,
+      x: dir > 0 ? 40 : -40,
+      scale: 0.98,
     }),
     center: {
       opacity: 1,
@@ -77,13 +77,13 @@ export function ProjectsSection() {
     },
     exit: (dir: number) => ({
       opacity: 0,
-      x: dir > 0 ? -80 : 80,
-      scale: 0.95,
+      x: dir > 0 ? -40 : 40,
+      scale: 0.98,
     }),
   };
 
   return (
-    <section id="proyectos" className="py-28 md:py-32 bg-background border-t border-border/50 overflow-hidden">
+    <section id="proyectos" className="py-24 md:py-32 bg-background border-t border-border/50 overflow-hidden">
       <div className="container-play">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -107,7 +107,10 @@ export function ProjectsSection() {
             </p>
 
             {/* Controles de navegación de la pasarela */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-mono text-foreground-subtle tabular-nums mr-1">
+                {String((startIndex % projects.length) + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+              </span>
               <button
                 type="button"
                 onClick={prev}
@@ -127,78 +130,112 @@ export function ProjectsSection() {
             </div>
           </div>
         </motion.div>
-      </div>
+        {/* Horizontal Scroll Area / Pasarela dentro del ancho controlado */}
+        <div className="w-full relative overflow-hidden py-2">
+          <div className="flex gap-6 w-full">
+            <AnimatePresence mode="popLayout" custom={direction} initial={false}>
+              {visibleProjects.map((project) => (
+                <motion.div
+                  key={project.name}
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  layout
+                  transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
+                  className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.3333%-16px)] shrink-0 flex flex-col bg-surface border border-border rounded-xl group hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-[border-color,box-shadow] duration-300 overflow-hidden"
+                >
+                  {/* Browser Mockup Top Bar */}
+                  <div className="h-7 w-full bg-[#13121b] border-b border-border/70 px-3.5 flex items-center justify-between text-[11px] text-foreground-subtle select-none">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-red-500/50" />
+                      <span className="w-2 h-2 rounded-full bg-yellow-500/50" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-500/50" />
+                    </div>
+                    <span className="font-mono text-[10px] text-foreground-subtle/70 truncate max-w-[160px]">
+                      {project.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                    </span>
+                    <div className="w-6" />
+                  </div>
 
-      {/* Horizontal Scroll Area / Pasarela */}
-      <div className="w-full relative overflow-hidden">
-        <div className="flex gap-6 pb-8 pt-2 px-6 md:px-10 lg:px-16 w-full mx-auto">
-          <AnimatePresence mode="popLayout" custom={direction} initial={false}>
-            {visibleProjects.map((project) => (
-              <motion.div
+                  {/* Live Iframe Preview */}
+                  <div className="aspect-[16/10] relative border-b border-border bg-surface-elevated overflow-hidden flex items-center justify-center group/iframe">
+                    {/* Escala el iframe para que actúe como un thumbnail de un sitio desktop */}
+                    <div className="absolute inset-0 w-[300%] h-[300%] origin-top-left scale-[0.33333] pointer-events-none">
+                      <iframe
+                        src={project.url}
+                        className="w-full h-full border-none bg-background opacity-85 group-hover/iframe:opacity-100 transition-opacity duration-700"
+                        title={`Vista previa de ${project.name}`}
+                        loading="lazy"
+                        scrolling="no"
+                      />
+                    </div>
+
+                    {/* Superposición interactiva sutil */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent pointer-events-none" />
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6 flex-1 flex flex-col">
+                    <div className="flex items-center gap-2.5 mb-3.5">
+                      <span className="text-[10px] font-mono tracking-wider text-foreground-muted uppercase">
+                        {project.category}
+                      </span>
+                      <span className="w-1 h-1 rounded-full bg-border" />
+                      <span className={`text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-sm border ${project.color}`}>
+                        {project.status}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-medium mb-2.5 text-foreground group-hover:text-primary transition-colors">
+                      {project.name}
+                    </h3>
+                    <p className="text-foreground-muted font-light leading-relaxed mb-5 text-sm flex-1 line-clamp-3">
+                      {project.desc}
+                    </p>
+
+                    <div className="mb-5">
+                      <span className="block text-[10px] font-mono text-foreground-subtle uppercase tracking-widest mb-1.5">Stack</span>
+                      <p className="text-xs text-foreground-muted font-mono leading-relaxed">{project.tech}</p>
+                    </div>
+
+                    <div className="mt-auto pt-4 border-t border-border/50">
+                      <Button variant="outline" size="sm" className="w-full h-9 group/btn text-xs font-medium" href={project.url}>
+                        <span>Ver proyecto</span>
+                        <ExternalLink className="w-3.5 h-3.5 ml-1.5 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Indicadores de paginación */}
+        <div className="flex items-center justify-center gap-2 mt-8">
+          {projects.map((project, index) => {
+            const isActive = index === (startIndex % projects.length);
+            return (
+              <button
                 key={project.name}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                layout
-                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.3333%-16px)] shrink-0 flex flex-col bg-surface border border-border rounded-xl group hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-[border-color,box-shadow] duration-300"
-              >
-                {/* Live Iframe Preview */}
-                <div className="aspect-[4/3] relative border-b border-border bg-surface-elevated overflow-hidden flex items-center justify-center group/iframe rounded-t-xl">
-                  {/* Escala el iframe para que actúe como un thumbnail de un sitio desktop */}
-                  <div className="absolute inset-0 w-[300%] h-[300%] origin-top-left scale-[0.33333] pointer-events-none">
-                    <iframe
-                      src={project.url}
-                      className="w-full h-full border-none bg-background opacity-80 group-hover/iframe:opacity-100 transition-opacity duration-700"
-                      title={`Vista previa de ${project.name}`}
-                      loading="lazy"
-                      scrolling="no"
-                    />
-                  </div>
-
-                  {/* Superposición interactiva sutil */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent pointer-events-none" />
-                </div>
-
-                {/* Content */}
-                <div className="p-6 md:p-7 flex-1 flex flex-col">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-[10px] font-mono tracking-wider text-foreground-muted uppercase">
-                      {project.category}
-                    </span>
-                    <span className="w-1 h-1 rounded-full bg-border" />
-                    <span className={`text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-sm border ${project.color}`}>
-                      {project.status}
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-medium mb-3 text-foreground group-hover:text-primary transition-colors">
-                    {project.name}
-                  </h3>
-                  <p className="text-foreground-muted font-light leading-relaxed mb-6 text-sm flex-1">
-                    {project.desc}
-                  </p>
-
-                  <div className="mb-6">
-                    <span className="block text-[10px] font-mono text-foreground-subtle uppercase tracking-widest mb-1.5">Stack</span>
-                    <p className="text-xs text-foreground-muted">{project.tech}</p>
-                  </div>
-
-                  <div className="mt-auto pt-4 border-t border-border/50">
-                    <Button variant="outline" size="sm" className="w-full h-10 group/btn" href={project.url}>
-                      <span>Ver proyecto</span>
-                      <ExternalLink className="w-3.5 h-3.5 ml-2 opacity-60 group-hover/btn:opacity-100 transition-opacity" />
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+                type="button"
+                onClick={() => {
+                  setDirection(index > startIndex ? 1 : -1);
+                  setStartIndex(index);
+                }}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  isActive
+                    ? "w-8 bg-primary shadow-[0_0_12px_rgba(110,86,207,0.6)]"
+                    : "w-2 bg-border hover:bg-border-hover"
+                }`}
+                aria-label={`Ir al proyecto ${project.name}`}
+              />
+            );
+          })}
         </div>
       </div>
-
     </section>
   );
 }
